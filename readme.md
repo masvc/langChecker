@@ -31,9 +31,8 @@ LangChecker は、指定された Web サイトの URL から、そのページ�
 
 ### フロントエンド
 
-- React.js
-- TypeScript
-- Tailwind CSS
+- Vanilla JavaScript
+- CSS
 - Axios（HTTP クライアント）
 
 ## プロジェクト構成
@@ -42,13 +41,19 @@ LangChecker は、指定された Web サイトの URL から、そのページ�
 langChecer/
 ├── backend/
 │   ├── app/          # バックエンドアプリケーション
+│   │   ├── main.py           # FastAPIアプリケーション
+│   │   ├── analyzer.py       # 技術スタック分析ロジック
+│   │   └── utils/            # ユーティリティモジュール
+│   │       ├── header_analyzer.py  # HTTPヘッダー分析
+│   │       └── html_parser.py      # HTML解析
 │   ├── venv/         # Python仮想環境
 │   └── requirements.txt
 ├── frontend/
 │   ├── index.html    # メインHTMLファイル
 │   ├── script.js     # フロントエンドロジック
 │   ├── styles.css    # スタイルシート
-│   └── package.json  # フロントエンド依存関係
+│   ├── package.json  # フロントエンド依存関係
+│   └── node_modules/ # 依存パッケージ
 └── readme.md
 ```
 
