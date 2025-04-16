@@ -26,7 +26,8 @@ def categorize_technologies(html_analysis: Dict[str, Any], header_analysis: Dict
             'mobile_support': False,
             'seo_ready': False,
             'social_integration': []
-        }
+        },
+        'evidence': {}
     }
 
     # フロントエンド分析
@@ -34,24 +35,76 @@ def categorize_technologies(html_analysis: Dict[str, Any], header_analysis: Dict
     for framework in frameworks:
         if framework in ['React', 'Vue.js', 'Angular', 'Next.js', 'Nuxt.js']:
             tech_stack['frontend']['framework'].append(framework)
+            # 根拠情報を追加
+            tech_stack['evidence'][framework] = {
+                'type': 'framework',
+                'source': 'HTMLソースコードの分析',
+                'details': f'HTMLソースコード内で{framework}の特徴的なコードパターンが検出されました。'
+            }
 
     # UIフレームワークとライブラリの分類
     for lib in html_analysis.get('libraries', []):
         if lib in ['Bootstrap', 'Tailwind CSS', 'Material-UI']:
             tech_stack['frontend']['ui_frameworks'].append(lib)
+            tech_stack['evidence'][lib] = {
+                'type': 'ui_framework',
+                'source': 'HTMLソースコードの分析',
+                'details': f'HTMLソースコード内で{lib}の特徴的なクラス名やスタイルが検出されました。'
+            }
         else:
             tech_stack['frontend']['libraries'].append(lib)
-
-    # 機能の分析
-    tech_stack['frontend']['features'].extend(html_analysis.get('features', []))
+            tech_stack['evidence'][lib] = {
+                'type': 'library',
+                'source': 'HTMLソースコードの分析',
+                'details': f'HTMLソースコード内で{lib}のスクリプトやスタイルが検出されました。'
+            }
 
     # バックエンド言語の推測
     if 'php' in header_analysis.get('x_powered_by', '').lower():
         tech_stack['backend']['language'] = 'PHP'
+        tech_stack['evidence']['PHP'] = {
+            'type': 'backend_language',
+            'source': 'HTTPレスポンスヘッダーの分析',
+            'details': f'サーバーのレスポンスヘッダー「X-Powered-By」にPHPが含まれていました。'
+        }
     elif 'python' in header_analysis.get('x_powered_by', '').lower():
         tech_stack['backend']['language'] = 'Python'
+        tech_stack['evidence']['Python'] = {
+            'type': 'backend_language',
+            'source': 'HTTPレスポンスヘッダーの分析',
+            'details': f'サーバーのレスポンスヘッダー「X-Powered-By」にPythonが含まれていました。'
+        }
     elif 'node' in header_analysis.get('x_powered_by', '').lower() or 'Next.js' in frameworks:
         tech_stack['backend']['language'] = 'Node.js'
+        tech_stack['evidence']['Node.js'] = {
+            'type': 'backend_language',
+            'source': 'HTTPレスポンスヘッダーとフレームワークの分析',
+            'details': f'サーバーのレスポンスヘッダー「X-Powered-By」にNode.jsが含まれているか、Next.jsフレームワークが検出されました。'
+        }
+
+    # サーバー情報の追加
+    if header_analysis.get('server'):
+        tech_stack['evidence']['Server'] = {
+            'type': 'server',
+            'source': 'HTTPレスポンスヘッダーの分析',
+            'details': f'サーバーのレスポンスヘッダー「Server」から{header_analysis.get("server")}が検出されました。'
+        }
+
+    # CDN情報の追加
+    if header_analysis.get('cdn'):
+        tech_stack['evidence']['CDN'] = {
+            'type': 'cdn',
+            'source': 'HTTPレスポンスヘッダーの分析',
+            'details': f'サーバーのレスポンスヘッダーから{header_analysis.get("cdn")}のCDNが使用されていることが検出されました。'
+        }
+
+    # セキュリティヘッダーの追加
+    if header_analysis.get('security_headers'):
+        tech_stack['evidence']['Security'] = {
+            'type': 'security',
+            'source': 'HTTPレスポンスヘッダーの分析',
+            'details': f'以下のセキュリティヘッダーが検出されました：{", ".join(header_analysis.get("security_headers", {}).keys())}'
+        }
 
     # メタ情報の分析
     for meta in html_analysis.get('meta_tags', []):

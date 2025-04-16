@@ -93,6 +93,19 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (frontendDetails) {
             addResultItem('フロントエンド技術', frontendDetails);
+            // 根拠情報の表示
+            const evidence = data.tech_stack.evidence;
+            const frontendEvidence = Object.entries(evidence)
+                .filter(([key, value]) => 
+                    value.type === 'framework' || 
+                    value.type === 'ui_framework' || 
+                    value.type === 'library')
+                .map(([key, value]) => 
+                    `【${key}】\n検出方法: ${value.source}\n詳細: ${value.details}`)
+                .join('\n\n');
+            if (frontendEvidence) {
+                addResultItem('フロントエンド技術の検出根拠', frontendEvidence);
+            }
         }
 
         // バックエンド技術
@@ -105,6 +118,18 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (backendDetails) {
             addResultItem('バックエンド技術', backendDetails);
+            // 根拠情報の表示
+            const evidence = data.tech_stack.evidence;
+            const backendEvidence = Object.entries(evidence)
+                .filter(([key, value]) => 
+                    value.type === 'backend_language' || 
+                    value.type === 'server')
+                .map(([key, value]) => 
+                    `【${key}】\n検出方法: ${value.source}\n詳細: ${value.details}`)
+                .join('\n\n');
+            if (backendEvidence) {
+                addResultItem('バックエンド技術の検出根拠', backendEvidence);
+            }
         }
 
         // インフラ情報
@@ -116,6 +141,18 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (infraDetails) {
             addResultItem('インフラストラクチャ', infraDetails);
+            // 根拠情報の表示
+            const evidence = data.tech_stack.evidence;
+            const infraEvidence = Object.entries(evidence)
+                .filter(([key, value]) => 
+                    value.type === 'cdn' || 
+                    value.type === 'security')
+                .map(([key, value]) => 
+                    `【${key}】\n検出方法: ${value.source}\n詳細: ${value.details}`)
+                .join('\n\n');
+            if (infraEvidence) {
+                addResultItem('インフラストラクチャの検出根拠', infraEvidence);
+            }
         }
 
         // メタ情報
