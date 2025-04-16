@@ -61,30 +61,56 @@ langChecer/
 
 ### バックエンドのセットアップ
 
-1. バックエンドディレクトリに移動
+1. Python のインストール確認
+
+```bash
+python --version
+```
+
+- Python 3.8 以上がインストールされていることを確認してください
+- インストールされていない場合は、[Python 公式サイト](https://www.python.org/downloads/)からダウンロードしてインストールしてください
+
+2. バックエンドディレクトリに移動
 
 ```bash
 cd backend
 ```
 
-2. Python 仮想環境の作成と有効化
+3. Python 仮想環境の作成と有効化
 
 ```bash
+# 仮想環境の作成
 python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# 仮想環境の有効化
+# macOS/Linuxの場合
+source venv/bin/activate
+# Windowsの場合
+venv\Scripts\activate
 ```
 
-3. 依存関係のインストール
+- 仮想環境が有効化されると、ターミナルのプロンプトの先頭に`(venv)`と表示されます
+- 仮想環境から抜ける場合は、`deactivate`と入力してください
+
+4. 依存関係のインストール
 
 ```bash
 pip install -r requirements.txt
 ```
 
-4. サーバーの起動
+- このコマンドは、プロジェクトに必要な Python パッケージを全てインストールします
+- インストールが完了するまで数分かかる場合があります
+- エラーが発生した場合は、エラーメッセージを確認して必要な対応を行ってください
+
+5. サーバーの起動
 
 ```bash
 uvicorn app.main:app --reload
 ```
+
+- サーバーが起動すると、`http://127.0.0.1:8000`でアクセスできます
+- `--reload`オプションは、コードの変更を自動的に検知してサーバーを再起動します
+- サーバーを停止する場合は、`Ctrl + C`を押してください
 
 ### フロントエンドのセットアップ
 
