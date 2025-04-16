@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LangChecker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>LangChecker</h1>
+      <div class="input-section">
+        <input type="text" id="urlInput" placeholder="URLを入力してください" />
+        <button id="analyzeButton">分析</button>
+      </div>
+      <div id="loading" class="hidden">分析中...</div>
+      <div id="error" class="hidden"></div>
+      <div id="results" class="hidden">
+        <h2>検出結果</h2>
+        <div id="resultsList"></div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
